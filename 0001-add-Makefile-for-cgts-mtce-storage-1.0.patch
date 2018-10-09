@@ -1,0 +1,45 @@
+From 152fb467bcc4bb8d5d396d7a8bd935c87be7037a Mon Sep 17 00:00:00 2001
+From: yhu6 <yong.hu@intel.com>
+Date: Mon, 1 Oct 2018 10:48:31 +0800
+Subject: [PATCH] add Makefile for cgts-mtce-storage-1.0
+
+Signed-off-by: yhu6 <yong.hu@intel.com>
+---
+ mtce-storage/cgts-mtce-storage-1.0/Makefile | 25 +++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 mtce-storage/cgts-mtce-storage-1.0/Makefile
+
+diff --git a/mtce-storage/cgts-mtce-storage-1.0/Makefile b/mtce-storage/cgts-mtce-storage-1.0/Makefile
+new file mode 100644
+index 0000000..8a89de0
+--- /dev/null
++++ b/mtce-storage/cgts-mtce-storage-1.0/Makefile
+@@ -0,0 +1,25 @@
++SOURCE1 = goenabled
++SOURCE2 = goenabled-storage.service
++SOURCE3 = LICENSE
++
++local_etc_pmond = $(_sysconfdir)/pmond.d
++local_etc_goenabledd = $(_sysconfdir)/goenabled.d
++local_etc_servicesd  = $(_sysconfdir)/services.d
++
++.PHONY: default
++
++install_non_bb:
++	# Storage-Only Init Scripts
++	install -m 755 -p -D scripts/$(SOURCE1) $(buildroot)/$(_sysconfdir)/init.d/goenabledStorage
++	# Storage-Only Process Monitor Config files
++	install -m 755 -d $(buildroot)/$(local_etc_pmond)
++	# Storage-Only Go Enabled Tests
++	install -m 755 -d $(buildroot)/$(local_etc_goenabledd)
++	# Storage-Only Services
++	install -m 755 -d $(buildroot)/$(local_etc_servicesd)/storage
++	# Install systemd dir
++	install -m 644 -p -D scripts/$(SOURCE2) $(buildroot)/$(_unitdir)/goenabled-storage.service
++	# for license
++	install -m 755 -d $(buildroot)/usr/share/licenses/cgts-mtce-storage-1.0
++	install -p -D -m 600 scripts/$(SOURCE3) $(buildroot)/usr/share/licenses/cgts-mtce-storage-1.0/LICENSE
++
+-- 
+2.19.0
+
